@@ -1,0 +1,342 @@
+;James Rozell
+;Cosc -  5393
+;Infected flight simulation
+;12/4/2020
+
+
+globals [x y turt infected rando mitigation duration counter]
+turtles-own [neighboring]
+
+
+to setup
+  clear-all
+  ;set infectedlist []
+  set-default-shape turtles "person"
+
+  create-all
+  set infected one-of turtles
+  ask infected [set color red]
+  set counter 0
+  set duration 49
+
+create-infected-neighbors
+end
+
+
+to go
+
+ let neighboringlist sort turtles with [neighboring = true]
+
+ if counter > duration [ stop ]
+
+ ;randomizes a number to determine if it breaks the mitigation check
+ set rando random-float 100
+ if rando >= mitigation[
+ ask one-of neighboringlist [set color green ]
+
+  ]
+
+  ;counter for my ticks
+  set counter counter + 1
+
+
+end
+
+;Creates all turtles and moves them onto a 1:1 grid pattern based on coordinates
+to create-all
+  create-turtles 338
+  [
+
+   set color blue
+    setxy (0)(0)
+
+    set neighboring false
+    ;Row A
+    set x 4
+    set turt 0
+    set y 6
+    repeat 12 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 22
+    repeat 8 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 32
+    repeat 11 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+    ;Row B
+    set x 5
+    set y 2
+    repeat 16 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 22
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 32
+    repeat 11 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+    ;Row C
+    set x 6
+    set y 2
+    repeat 16 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 22
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 32
+    repeat 11 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+
+    ;Row D
+    set x 8
+    set y 1
+    repeat 15 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 21
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 31
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+    ;Row E
+    set x 9
+    set y 1
+    repeat 15 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 21
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 31
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+    ;Row F
+    set x 10
+    set y 1
+    repeat 15 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 21
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 31
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+    ;Row G
+    set x 11
+    set y 1
+    repeat 15 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 21
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 31
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+
+    ;Row H
+    set x 13
+    set y 2
+    repeat 16 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 22
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 32
+    repeat 11 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+    ;Row I
+    set x 14
+    set y 2
+    repeat 16 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 22
+    repeat 9 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 32
+    repeat 11 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+
+
+    ;Row J
+    set x 15
+    set y 6
+    repeat 12 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 22
+    repeat 8 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+    set y 32
+    repeat 11 [ask turtle turt [move-to patch (x)(y)] set y y + 1 set turt turt + 1]
+
+  ]
+
+end
+
+;sets neighbors for the infected and associated mitigation factor depending on users choice
+to create-infected-neighbors
+  ;no mask
+
+if Mask-Mitigation =  "No Mask" [
+
+  set mitigation 0
+
+
+  ;to the right of infected
+  ask infected [ask turtles-at 1 0[set neighboring true]]
+  ask infected [ask turtles-at 2 0[set neighboring true]]
+  ask infected [ask turtles-at 3 0[set neighboring true]]
+  ask infected [ask turtles-at 4 0[set neighboring true]]
+  ask infected [ask turtles-at 5 0[set neighboring true]]
+  ask infected [ask turtles-at 6 0[set neighboring true]]
+  ask infected [ask turtles-at 7 0[set neighboring true]]
+
+  ;to the left of infected
+  ask infected [ask turtles-at -1 0[set neighboring true]]
+  ask infected [ask turtles-at -2 0[set neighboring true]]
+  ask infected [ask turtles-at -3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+  ask infected [ask turtles-at -5 0[set neighboring true]]
+  ask infected [ask turtles-at -6 0[set neighboring true]]
+  ask infected [ask turtles-at -7 0[set neighboring true]]
+
+
+ ;immediate row in front of infected
+  ask infected [ask turtles-at 0 1[set neighboring true]]
+
+  ask infected [ask turtles-at 1 1[set neighboring true]]
+  ask infected [ask turtles-at 2 1[set neighboring true]]
+  ask infected [ask turtles-at 3 1[set neighboring true]]
+  ask infected [ask turtles-at 4 1[set neighboring true]]
+  ask infected [ask turtles-at 5 1[set neighboring true]]
+  ask infected [ask turtles-at 6 1[set neighboring true]]
+  ask infected [ask turtles-at 7 1[set neighboring true]]
+
+  ask infected [ask turtles-at -1 1[set neighboring true]]
+  ask infected [ask turtles-at -2 1[set neighboring true]]
+  ask infected [ask turtles-at -3 1[set neighboring true]]
+  ask infected [ask turtles-at -4 1[set neighboring true]]
+  ask infected [ask turtles-at -5 1[set neighboring true]]
+  ask infected [ask turtles-at -6 1[set neighboring true]]
+  ask infected [ask turtles-at -7 1[set neighboring true]]
+
+
+
+  ;second row in front of infected
+  ask infected [ask turtles-at 0 2[set neighboring true]]
+
+  ask infected [ask turtles-at 1 2[set neighboring true]]
+  ask infected [ask turtles-at 2 2[set neighboring true]]
+  ask infected [ask turtles-at 3 2[set neighboring true]]
+  ask infected [ask turtles-at 4 2[set neighboring true]]
+  ask infected [ask turtles-at 5 2[set neighboring true]]
+  ask infected [ask turtles-at 6 2[set neighboring true]]
+
+
+  ask infected [ask turtles-at -1 2[set neighboring true]]
+  ask infected [ask turtles-at -2 2[set neighboring true]]
+  ask infected [ask turtles-at -3 2[set neighboring true]]
+  ask infected [ask turtles-at -4 2[set neighboring true]]
+  ask infected [ask turtles-at -5 2[set neighboring true]]
+  ask infected [ask turtles-at -6 2[set neighboring true]]
+
+
+
+
+  ;3 row in front of infected
+  ask infected [ask turtles-at 0 3[set neighboring true]]
+
+  ask infected [ask turtles-at 1 3[set neighboring true]]
+  ask infected [ask turtles-at 2 3[set neighboring true]]
+  ask infected [ask turtles-at 3 3[set neighboring true]]
+  ask infected [ask turtles-at 4 3[set neighboring true]]
+
+
+
+  ask infected [ask turtles-at -1 3[set neighboring true]]
+  ask infected [ask turtles-at -2 3[set neighboring true]]
+  ask infected [ask turtles-at -3 3[set neighboring true]]
+  ask infected [ask turtles-at -4 3[set neighboring true]]
+  ]
+
+
+
+ if Mask-Mitigation =  "Homemade Mask"[
+    set mitigation 70
+
+
+  ;to the right of infected
+  ask infected [ask turtles-at 1 0[set neighboring true]]
+  ask infected [ask turtles-at 2 0[set neighboring true]]
+  ask infected [ask turtles-at 3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+
+  ;to the left of infected
+  ask infected [ask turtles-at -1 0[set neighboring true]]
+  ask infected [ask turtles-at -2 0[set neighboring true]]
+  ask infected [ask turtles-at -3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+
+  ;immediate row in front of infected
+  ask infected [ask turtles-at 0 1[set neighboring true]]
+  ask infected [ask turtles-at -1 1[set neighboring true]]
+  ask infected [ask turtles-at -2 1[set neighboring true]]
+  ask infected [ask turtles-at -3 1[set neighboring true]]
+  ask infected [ask turtles-at 1 1[set neighboring true]]
+  ask infected [ask turtles-at 2 1[set neighboring true]]
+  ask infected [ask turtles-at 3 1[set neighboring true]]
+
+
+  ;Second row in front of infected
+  ask infected [ask turtles-at 0 2[set neighboring true]]
+  ask infected [ask turtles-at -1 2[set neighboring true]]
+  ask infected [ask turtles-at 1 2[set neighboring true]]
+  ]
+
+
+
+ if Mask-Mitigation =  "Single Layered Mask"[
+    set mitigation 81.9
+  ;to the right of infected
+  ask infected [ask turtles-at 1 0[set neighboring true]]
+  ask infected [ask turtles-at 2 0[set neighboring true]]
+  ask infected [ask turtles-at 3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+
+  ;to the left of infected
+  ask infected [ask turtles-at -1 0[set neighboring true]]
+  ask infected [ask turtles-at -2 0[set neighboring true]]
+  ask infected [ask turtles-at -3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+
+  ;immediate row in front of infected
+  ask infected [ask turtles-at 0 1[set neighboring true]]
+  ask infected [ask turtles-at -1 1[set neighboring true]]
+  ask infected [ask turtles-at -2 1[set neighboring true]]
+  ask infected [ask turtles-at -3 1[set neighboring true]]
+  ask infected [ask turtles-at 1 1[set neighboring true]]
+  ask infected [ask turtles-at 2 1[set neighboring true]]
+  ask infected [ask turtles-at 3 1[set neighboring true]]
+
+
+  ;Second row in front of infected
+  ask infected [ask turtles-at 0 2[set neighboring true]]
+  ask infected [ask turtles-at -1 2[set neighboring true]]
+  ask infected [ask turtles-at 1 2[set neighboring true]]
+
+  ]
+
+
+
+
+ if Mask-Mitigation =  "Medical Mask"[
+    set mitigation 98.5
+  ;to the right of infected
+  ask infected [ask turtles-at 1 0[set neighboring true]]
+  ask infected [ask turtles-at 2 0[set neighboring true]]
+  ask infected [ask turtles-at 3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+
+  ;to the left of infected
+  ask infected [ask turtles-at -1 0[set neighboring true]]
+  ask infected [ask turtles-at -2 0[set neighboring true]]
+  ask infected [ask turtles-at -3 0[set neighboring true]]
+  ask infected [ask turtles-at -4 0[set neighboring true]]
+
+  ;immediate row in front of infected
+  ask infected [ask turtles-at 0 1[set neighboring true]]
+  ask infected [ask turtles-at -1 1[set neighboring true]]
+  ask infected [ask turtles-at -2 1[set neighboring true]]
+  ask infected [ask turtles-at -3 1[set neighboring true]]
+  ask infected [ask turtles-at 1 1[set neighboring true]]
+  ask infected [ask turtles-at 2 1[set neighboring true]]
+  ask infected [ask turtles-at 3 1[set neighboring true]]
+
+
+  ;Second row in front of infected
+  ask infected [ask turtles-at 0 2[set neighboring true]]
+  ask infected [ask turtles-at -1 2[set neighboring true]]
+  ask infected [ask turtles-at 1 2[set neighboring true]]
+  ]
+
+
+
+
+end
